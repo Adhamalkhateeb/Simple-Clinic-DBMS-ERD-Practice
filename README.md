@@ -1,4 +1,4 @@
-# Simple-Clinic-DBMS-ERD-Relational-0Schema-Practice
+# Simple-Clinic-DBMS-ERD-Relational-Schema-Practice
 ## Making ERD for Clinic to Practice make conceptual Data Base Model before Implementing it
 
 ## Here are the database requirements for a simple clinic:
