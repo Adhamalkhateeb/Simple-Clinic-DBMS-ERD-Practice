@@ -1,0 +1,71 @@
+Create database SimpleClinic;
+
+use SimpleClinic;
+
+create table Persons(
+Person_ID int identity(1,1) not null primary key,
+FirstName nvarchar(50) not null,
+LastName nvarchar(50) not null,
+Gender nvarchar(1),
+DateOfBirth date ,
+Address nvarchar(200),
+Phone_Number nvarchar(20) not null,
+EmailAddress nvarchar(100) not null
+);
+
+
+create Table Patients(
+Patient_ID int identity(1,1)  not null Primary Key,
+PersonID int references Persons(Person_ID) not null
+);
+
+
+create table Doctors(
+Doctor_ID int identity(1,1) not null Primary key,
+Specialization  nvarchar(100) not null,
+PersonID int references Persons(Person_ID)not null
+);
+
+
+create table Appointments(
+Appointment_ID int identity(1,1) not null primary key,
+AppointmentDateTime datetime2 default GetDate(),
+patientID int references Patients(Patient_ID) not null,
+DoctorID int references Doctors(Doctor_ID) not null ,
+);
+
+
+create Table Payments(
+Payment_ID int identity(1,1) not null Primary key,
+Payment_Method nvarchar(50) not null ,
+AmmountPaid decimal not null ,
+PaymentDate datetime2 default GetDate(),
+AdditionalNotes nvarchar(200),
+);
+
+Alter table Appointments
+Add  PaymentID int not null,
+Constraint Fk_Payment Foreign key(PaymentID) references Payments(Payment_ID); 
+
+create table MedicalRecords(
+MedicalRecordID int identity(1,1) not null primary key ,
+Diagnosis nvarchar(200) not null,
+Visit_Description nvarchar(200) not null,
+AdditionalNotes nvarchar(200)
+);
+
+Alter table Appointments
+Add  MedicalRecordID int not null,
+Constraint Fk_MedicalRecord Foreign key(MedicalRecordID) references MedicalRecords(MedicalRecordID); 
+
+
+create table Prescription(
+Prescription_ID int identity(1,1) not null Primary key,
+Dosage nvarchar(50) not null,
+Frequency nvarchar(50) not null,
+StartDate date default GetDate(),
+EndDate date,
+MedicationName nvarchar(100) not null,
+Special_Instructions nvarchar(200),
+MedicalRecordID int references MedicalRecords(MedicalRecordID) not null
+);
